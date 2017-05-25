@@ -31,6 +31,11 @@ class KoreanPhrase(object):
         return '{}({}: {}, {})'.format(self.text, self.pos, self.offset, self.length)
 
 
+def normalize(text):
+    okt = load_okt()
+    return okt.normalize(text)
+
+
 def tokenize(text, nomalize=False, stem=False):
     okt = load_okt()
     tokenized = okt.tokenize(text, java_bool(nomalize), java_bool(stem))
