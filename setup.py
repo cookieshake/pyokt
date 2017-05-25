@@ -6,7 +6,7 @@ here = path.abspath(path.dirname(__file__))
 
 setup(
     name='pyokt',
-    version='0.1.2',
+    version='0.1.3',
     description='open-korean-text wrapper for python',
 
     url='https://github.com/cookieshake/pyokt',
