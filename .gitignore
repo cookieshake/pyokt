@@ -1,4 +1,7 @@
 .idea/
+out/
+dist/
+pyokt.egg-info/
 *.class
 *.pyc
 **/__pycache__/
