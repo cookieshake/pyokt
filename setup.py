@@ -6,7 +6,7 @@ here = path.abspath(path.dirname(__file__))
 
 setup(
     name='pyokt',
-    version='0.1.3',
+    version='0.1.5',
     description='open-korean-text wrapper for python',
 
     url='https://github.com/cookieshake/pyokt',
@@ -23,4 +23,7 @@ setup(
     keywords='open-korean-text korean text tokenize',
     packages=['pyokt'],
     install_requires=['jpype1'],
+    package_data={'pyokt': [
+        'jars/*.jar',
+    ]},
 )

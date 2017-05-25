@@ -1,1 +1,1 @@
-recursive-include pyokt/ *.java *.jar
+recursive-include pyokt/ *.jar
