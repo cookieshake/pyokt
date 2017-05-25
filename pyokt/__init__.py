@@ -40,7 +40,7 @@ def tokenize(text, nomalize=False, stem=False):
 
 def split_sentences(text):
     okt = load_okt()
-    return okt.splitSentences(text)
+    return list(okt.splitSentences(text))
 
 
 def add_nouns_to_dictionary(nouns):
