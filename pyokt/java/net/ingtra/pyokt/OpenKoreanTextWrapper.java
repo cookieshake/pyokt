@@ -4,10 +4,13 @@ package net.ingtra.pyokt;
 import org.openkoreantext.processor.KoreanPosJava;
 import org.openkoreantext.processor.KoreanTokenJava;
 import org.openkoreantext.processor.OpenKoreanTextProcessorJava;
+import org.openkoreantext.processor.phrase_extractor.KoreanPhraseExtractor;
 import org.openkoreantext.processor.tokenizer.KoreanTokenizer;
+import org.openkoreantext.processor.tokenizer.Sentence;
 import scala.collection.Seq;
 import scala.collection.JavaConverters;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -41,5 +44,28 @@ public class OpenKoreanTextWrapper {
         }
 
         return javaTokens.toArray(new KoreanTokenJava[0]);
+    }
+
+    public static String[] splitSentences(String text) {
+        List<Sentence> sentences = OpenKoreanTextProcessorJava.splitSentences(text);
+        LinkedList<String> sentenceStrings = new LinkedList<>();
+
+        for (Sentence s : sentences) {
+            sentenceStrings.add(s.text());
+        }
+
+        return sentenceStrings.toArray(new String[0]);
+    }
+
+    public static void addNounsToDictionary(String[] list) {
+        OpenKoreanTextProcessorJava.addNounsToDictionary(Arrays.asList(list));
+    }
+
+    public static KoreanPhraseExtractor.KoreanPhrase[] extractPhrases(String text, Boolean filterSpam, Boolean addHashtags) {
+        text = OpenKoreanTextWrapper.normalize(text);
+        Seq<KoreanTokenizer.KoreanToken> scalaTokens = OpenKoreanTextProcessorJava.tokenize(text);
+        List<KoreanPhraseExtractor.KoreanPhrase> phrases = OpenKoreanTextProcessorJava.extractPhrases(scalaTokens, filterSpam, addHashtags);
+
+        return phrases.toArray(new KoreanPhraseExtractor.KoreanPhrase[0]);
     }
 }

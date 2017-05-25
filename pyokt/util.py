@@ -11,6 +11,9 @@ def init_jvm():
 
 
 def load_okt():
+    if not jpype.isJVMStarted():
+        init_jvm()
+
     return jpype.JPackage('net.ingtra.pyokt').OpenKoreanTextWrapper
 
 
