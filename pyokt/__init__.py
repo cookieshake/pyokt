@@ -1,5 +1,5 @@
-import os
 import jpype
+from pyokt.util import init_jvm, load_okt, java_bool
 
 
 class KoreanToken:
@@ -11,24 +11,21 @@ class KoreanToken:
         self.unknown = kt_java.isUnknown()
 
     def __str__(self):
-        return '3'
+        return self.pos
 
     def __repr__(self):
         return '{}({}: {}, {})'.format(self.text, self.pos, self.offset, self.length)
 
 
-def init_jvm():
-    jvm_path = jpype.get_default_jvm_path()
-    file_path = os.path.dirname(os.path.realpath(__file__))
-    jars_path = os.path.join(file_path, 'jars')
-    jars = [os.path.join(jars_path, f) for f in os.listdir(jars_path)]
-    jpype.startJVM(jvm_path, '-Djava.class.path={}'.format(os.pathsep.join(jars)), '-Dfile.encoding=UTF8', '-ea')
+def tokenize(text, nomalize=False, stem=False):
+    if not jpype.isJVMStarted():
+        init_jvm()
+
+    okt = load_okt()
+    tokenized = okt.tokenize(text, java_bool(nomalize), java_bool(stem))
+
+    return [KoreanToken(t) for t in tokenized]
 
 
-def load_okt():
-    return jpype.JPackage('net.ingtra.pyokt').OktWrapper
-
-init_jvm()
-okt = load_okt()
-print([KoreanToken(t) for t in okt.tokenize("집에 가서 잠을 자고 싶다")])
-
+def close():
+    jpype.shutdownJVM()
